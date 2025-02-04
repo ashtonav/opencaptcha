@@ -18,7 +18,8 @@ public class CaptchaServiceTests
             Text = "my text",
             Width = 100,
             Height = 100,
-            Difficulty = CaptchaDifficulty.Medium
+            Difficulty = CaptchaDifficulty.Medium,
+            Font = "Arial Unicode MS"
         };
         var captchaService = new CaptchaService();
 

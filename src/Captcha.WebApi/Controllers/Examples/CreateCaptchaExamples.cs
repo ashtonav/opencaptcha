@@ -2,7 +2,7 @@ namespace CaptchaWebApi.Controllers.Examples;
 using Captcha.Core.Models;
 using Swashbuckle.AspNetCore.Filters;
 
-public class CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
+public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
 {
     public IEnumerable<SwaggerExample<CaptchaRequest>> GetExamples()
     {

@@ -9,70 +9,89 @@ public class MappingExtensionsTests
     [Test]
     public void ToDomainMapsTextCorrectly()
     {
+        // Arrange
         var request = new CaptchaRequest { Text = "test text" };
+        // Act
         var result = request.ToDomain();
+        // Assert
         Assert.That(result.Text, Is.EqualTo("test text"));
     }
 
     [Test]
-    public void ToDomainUsesDefaultWidthWhenNotProvided()
+    public void ToDomainUsesDefaultWidthAndHeightWhenNotProvided()
     {
-        var request = new CaptchaRequest();
+        // Arrange
+        var request = new CaptchaRequest() { Text = Guid.NewGuid().ToString() };
+        // Act
         var result = request.ToDomain();
-        Assert.That(result.Width, Is.EqualTo(400));
-    }
+        Assert.Multiple(() =>
+        {
+            // Assert
+            Assert.That(result.Width, Is.EqualTo(400));
+            Assert.That(result.Height, Is.EqualTo(100));
+        });
 
-    [Test]
-    public void ToDomainUsesDefaultHeightWhenNotProvided()
-    {
-        var request = new CaptchaRequest();
-        var result = request.ToDomain();
-        Assert.That(result.Height, Is.EqualTo(100));
     }
 
     [Test]
     public void ToDomainUsesDefaultDifficultyWhenNotProvided()
     {
-        var request = new CaptchaRequest();
+        // Arrange
+        var request = new CaptchaRequest() { Text = Guid.NewGuid().ToString() };
+        // Act
         var result = request.ToDomain();
+        // Assert
         Assert.That(result.Difficulty, Is.EqualTo(CaptchaDifficulty.Medium));
     }
 
     [Test]
     public void ToDomainUsesArialUnicodeMsForFontProperty()
     {
-        var request = new CaptchaRequest();
+        // Arrange
+        var request = new CaptchaRequest() { Text = Guid.NewGuid().ToString() };
+        // Act
         var result = request.ToDomain();
+        // Assert
         Assert.That(result.Font, Is.EqualTo("Arial Unicode MS"));
     }
 
     [Test]
     public void ToDomainUsesProvidedWidthWhenGiven()
     {
-        var request = new CaptchaRequest { Width = 500 };
+        // Arrange
+        var request = new CaptchaRequest { Width = 500, Text = Guid.NewGuid().ToString()};
+        // Act
         var result = request.ToDomain();
+        // Assert
         Assert.That(result.Width, Is.EqualTo(500));
     }
 
     [Test]
     public void ToDomainUsesProvidedHeightWhenGiven()
     {
-        var request = new CaptchaRequest { Height = 300 };
+        // Arrange
+        var request = new CaptchaRequest { Height = 300, Text = Guid.NewGuid().ToString() };
+        // Act
         var result = request.ToDomain();
+        // Assert
         Assert.That(result.Height, Is.EqualTo(300));
     }
 
     [Test]
     public void ToDomainUsesProvidedDifficultyWhenGiven()
     {
-        var request = new CaptchaRequest { Difficulty = CaptchaDifficulty.Hard };
+        // Arrange
+        var request = new CaptchaRequest { Difficulty = CaptchaDifficulty.Hard, Text = Guid.NewGuid().ToString() };
+        // Act
         var result = request.ToDomain();
+        // Assert
         Assert.That(result.Difficulty, Is.EqualTo(CaptchaDifficulty.Hard));
     }
 
     [Test]
     public void ToDomainMapsMultipleRequestsCorrectly()
     {
+        // Arrange
         var requests = new List<CaptchaRequest>
         {
             new() {
@@ -89,7 +108,10 @@ public class MappingExtensionsTests
             },
         };
 
+        // Act
         var results = requests.Select(r => r.ToDomain()).ToList();
+
+        // Assert
         Assert.Multiple(() =>
         {
             Assert.That(results[0].Text, Is.EqualTo(requests[0].Text));
@@ -104,12 +126,13 @@ public class MappingExtensionsTests
         });
     }
 
-    // Null object scenario
     [Test]
     public void ToDomainThrowsWhenRequestIsNull()
     {
+        // Arrange
         CaptchaRequest request = null;
 
+        // Act & Assert
         Assert.Throws<NullReferenceException>(() => request.ToDomain());
     }
 }

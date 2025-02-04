@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Globalization;
 using Core.Models;
 using NUnit.Framework;
+using Reqnroll;
 using RestSharp;
 using Support;
-using TechTalk.SpecFlow;
 
 [Binding]
 public class CaptchaSteps(ScenarioContext context) : TestBase(context)

@@ -8,11 +8,12 @@ using Swashbuckle.AspNetCore.Filters;
 
 [ApiController]
 [Route("[controller]")]
-public class CaptchaController(ILogger<CaptchaController> logger, ICaptchaService captchaService) : Controller
+public class CaptchaController(ICaptchaService captchaService) : Controller
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [SwaggerRequestExample(typeof(CaptchaRequest), typeof(CreateCaptchaExamples))]
     public async Task<FileContentResult> Create(CaptchaRequest request)
     {
