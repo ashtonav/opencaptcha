@@ -4,5 +4,5 @@ using Models;
 
 public interface ICaptchaService
 {
-    Task<FileContentResult> CreateCaptchaImageAsync(CaptchaConfigurationData config);
+    public Task<FileContentResult> CreateCaptchaImageAsync(CaptchaConfigurationData config);
 }
