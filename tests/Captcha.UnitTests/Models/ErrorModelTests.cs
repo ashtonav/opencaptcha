@@ -13,17 +13,17 @@ public class ErrorModelTests
     public void ErrorModelConstructedWithExceptionExceptionPropertiesMatchModelProperties(Type exceptionType, string message)
     {
         // Arrange
-        var comparedException = (Exception)Activator.CreateInstance(exceptionType, message);
+        var comparedException = (Exception)Activator.CreateInstance(exceptionType, message)!;
 
         // Act
         var errorModel = new ErrorModel(comparedException);
-        Assert.Multiple(() =>
-        {
 
-            // Assert
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
             Assert.That(errorModel.Type, Is.EqualTo(comparedException.GetType().Name));
             Assert.That(errorModel.Message, Is.EqualTo(comparedException.Message));
             Assert.That(errorModel.StackTrace, Is.EqualTo(comparedException.ToString()));
-        });
+        }
     }
 }

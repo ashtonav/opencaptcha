@@ -1,4 +1,5 @@
 namespace CaptchaWebApi.Controllers.Examples;
+
 using Captcha.Core.Models;
 using Swashbuckle.AspNetCore.Filters;
 

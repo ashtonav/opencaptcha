@@ -1,5 +1,6 @@
 namespace CaptchaWebApi.Dependency;
 
+using Captcha.Core.Mappers;
 using Captcha.Core.Services;
 using Controllers.Examples;
 using Microsoft.OpenApi.Models;
@@ -12,7 +13,8 @@ public static class ServiceRegistrations
     public static WebApplicationBuilder ConfigureServices(this WebApplicationBuilder builder)
     {
         // Add Dependency Injection
-        builder.Services.AddScoped<ICaptchaService, CaptchaService>();
+        builder.Services.AddScoped<ICaptchaImageService, CaptchaImageService>();
+        builder.Services.AddScoped<RequestToDomainMapper>();
 
         // Configure lowercase URLs
         builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
