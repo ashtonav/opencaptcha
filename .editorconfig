@@ -501,7 +501,5 @@ dotnet_naming_rule.parameters_rule.severity             = warning
 # Custom config for this project (OpenCaptcha)
 ##########################################
 [*.{cs,vb}]
-# Ignore warnings that this solution only works on Windows
-dotnet_diagnostic.CA1416.severity = none
 # Ignore warnings that some methods could be made static
 dotnet_diagnostic.CA1822.severity = none

@@ -170,12 +170,12 @@ public class RequestToDomainMapperTests
             Assert.That(results[0].Text, Is.EqualTo(requests[0].Text));
             Assert.That(results[0].Width, Is.EqualTo(requests[0].Width));
             Assert.That(results[0].Height, Is.EqualTo(requests[0].Height));
-            Assert.That(results[0].Frequency, Is.EqualTo(300F));
+            Assert.That(results[0].Frequency, Is.EqualTo(600F));
 
             Assert.That(results[1].Text, Is.EqualTo(requests[1].Text));
             Assert.That(results[1].Width, Is.EqualTo(requests[1].Width));
             Assert.That(results[1].Height, Is.EqualTo(requests[1].Height));
-            Assert.That(results[1].Frequency, Is.EqualTo(20F));
+            Assert.That(results[1].Frequency, Is.EqualTo(80F));
         }
     }
 
@@ -187,19 +187,6 @@ public class RequestToDomainMapperTests
 
         // Act & Assert
         Assert.Throws<NullReferenceException>(() => _requestToDomainMapper.ToDomain(request));
-    }
-
-    [Test]
-    public void ToDomainUsesArialUnicodeMsForFontProperty()
-    {
-        // Arrange
-        var request = new CaptchaRequest { Text = Guid.NewGuid().ToString() };
-
-        // Act
-        var result = _requestToDomainMapper.ToDomain(request);
-
-        // Assert
-        Assert.That(result.Font, Is.EqualTo(Constants.DefaultCaptchaFontName));
     }
 
     [Test]
@@ -219,7 +206,6 @@ public class RequestToDomainMapperTests
         {
             Assert.That(result.PrimaryColor, Is.EqualTo(Constants.DefaultPrimaryColor));
             Assert.That(result.SecondaryColor, Is.EqualTo(Constants.DefaultSecondaryColor));
-            Assert.That(result.ThirdColor, Is.EqualTo(Constants.DefaultTertiaryColor));
         }
     }
 

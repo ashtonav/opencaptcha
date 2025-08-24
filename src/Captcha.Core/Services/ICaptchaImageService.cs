@@ -1,9 +1,9 @@
 namespace Captcha.Core.Services;
 
-using System.Drawing;
 using Models;
+using SkiaSharp;
 
 public interface ICaptchaImageService
 {
-    public Bitmap CreateCaptchaImage(CaptchaConfigurationData config);
+    public SKBitmap CreateCaptchaImage(CaptchaConfigurationData config);
 }

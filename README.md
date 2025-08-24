@@ -48,16 +48,14 @@ curl -X 'POST' \
 
 #### Requirements
 - Docker
-- Windows Operating System
 
 #### How to Run
-1. Switch Docker to use Windows containers ([see documentation](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/run-your-first-container)).
-2. From the root folder of the project, run the following commands:
+1. From the root folder of the project, run the following commands:
    ```bash
    docker build -t opencaptcha -f ./src/Captcha.WebApi/Dockerfile .
    docker run -it -p 5280:8080 opencaptcha
    ```
-3. The API can be accessed at [http://localhost:5280](http://localhost:5280).
+2. The API can be accessed at [http://localhost:5280](http://localhost:5280).
 
 ### Option 2: Using Visual Studio (recommended for development purposes)
 
@@ -65,7 +63,7 @@ curl -X 'POST' \
 - Visual Studio 2022
     - With ASP.NET and web development installed from the Visual Studio Installer
 - .NET 9 SDK
-- Windows Operating System
+- Arimo and Unifont fonts 
 
 #### How to Run
 1. Open the solution in Visual Studio 2022.
