@@ -51,7 +51,7 @@ curl -X 'POST' \
 - Windows Operating System
 
 #### How to Run
-1. Switch Docker to use Windows containers (see [Docker docs](https://docs.docker.com/desktop/setup/install/windows-install/#:~:text=How%20do%20I%20switch%20between%20Windows%20and%20Linux%20containers%3F)).
+1. Switch Docker to use Windows containers ([see documentation](https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/run-your-first-container)).
 2. From the root folder of the project, run the following commands:
    ```bash
    docker build -t opencaptcha -f ./src/Captcha.WebApi/Dockerfile .
@@ -78,7 +78,7 @@ curl -X 'POST' \
 
 ## Acknowledgments
 
-A significant portion of this project, especially the CAPTCHA generation code, is based on work originally published on February 9, 2004, by [BrainJar](https://www.codeproject.com/Articles/5947/CAPTCHA-Image).
+A significant portion of this project, especially the CAPTCHA generation code, is inspired by work originally published on February 9, 2004, by [BrainJar](https://www.codeproject.com/Articles/5947/CAPTCHA-Image).
 
 ## Contributing
 
