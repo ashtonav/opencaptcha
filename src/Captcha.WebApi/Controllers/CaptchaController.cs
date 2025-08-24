@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Filters;
 
 [ApiController]
 [Route("[controller]")]
-public class CaptchaController(ICaptchaImageService captchaImageService, RequestToDomainMapper requestToDomainMapper) : Controller
+public class CaptchaController(ICaptchaImageService captchaImageService, RequestToDomainMapper requestToDomainMapper) : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
