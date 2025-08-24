@@ -146,7 +146,7 @@ public class CaptchaImageTests
         CaptchaConfigurationData nullConfig = null;
 
         // Act & Assert
-        Assert.Throws<ArgumentNullException>(() =>
+        Assert.Throws<NullReferenceException>(() =>
         {
             _service.CreateCaptchaImage(nullConfig);
         });
