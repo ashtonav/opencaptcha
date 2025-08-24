@@ -3,6 +3,7 @@
 ![banner](docs/logo.png)
 
 [![codecov](https://codecov.io/gh/ashtonav/opencaptcha/graph/badge.svg?token=ZD0L2LC2U0)](https://codecov.io/gh/ashtonav/opencaptcha)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ashtonav_opencaptcha&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ashtonav_opencaptcha)
 [![.NET](https://github.com/ashtonav/opencaptcha/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ashtonav/opencaptcha/actions/workflows/dotnet.yml)
 [![license](https://img.shields.io/github/license/ashtonav/opencaptcha.svg)](LICENSE)
 
@@ -63,7 +64,7 @@ curl -X 'POST' \
 #### Requirements
 - Visual Studio 2022
     - With ASP.NET and web development installed from the Visual Studio Installer
-- .NET 8 SDK
+- .NET 9 SDK
 - Windows Operating System
 
 #### How to Run

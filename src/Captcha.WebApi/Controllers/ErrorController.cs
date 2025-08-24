@@ -1,4 +1,5 @@
 namespace CaptchaWebApi.Controllers;
+
 using Captcha.Core.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ public class ErrorController : ControllerBase
     public ErrorModel Error()
     {
         var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-        var exception = context.Error;
+        var exception = context!.Error;
 
         var code = exception switch
         {

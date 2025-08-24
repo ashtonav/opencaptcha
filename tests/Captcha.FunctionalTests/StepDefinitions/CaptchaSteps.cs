@@ -11,8 +11,8 @@ using Support;
 [Binding]
 public class CaptchaSteps(ScenarioContext context) : TestBase(context)
 {
-    private CaptchaRequest _request;
-    private RestResponse _response;
+    private CaptchaRequest? _request;
+    private RestResponse? _response;
 
     [Given(@"I have a captcha request with following parameters:")]
     public void GivenIHaveACaptchaRequestWithFollowingParameters(Table table)
@@ -21,20 +21,28 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
 
         _request = new CaptchaRequest
         {
-            Text = row["Text"],
-            Width = string.IsNullOrEmpty(row["Width"]) ? null : int.Parse(row["Width"], CultureInfo.InvariantCulture),
-            Height = string.IsNullOrEmpty(row["Height"]) ? null : int.Parse(row["Height"], CultureInfo.InvariantCulture),
-            Difficulty = string.IsNullOrEmpty(row["Difficulty"]) ? null
-                : Enum.Parse<CaptchaDifficulty>(row["Difficulty"], true)
+            Text = row[TestConstants.Text],
+            Width = string.IsNullOrEmpty(row[TestConstants.Width])
+                ? null
+                : int.Parse(row[TestConstants.Width], CultureInfo.InvariantCulture),
+            Height = string.IsNullOrEmpty(row[TestConstants.Height])
+                ? null
+                : int.Parse(row[TestConstants.Height], CultureInfo.InvariantCulture),
+            Difficulty = string.IsNullOrEmpty(row[TestConstants.Difficulty])
+                ? null
+                : Enum.Parse<CaptchaDifficulty>(row[TestConstants.Difficulty], true)
         };
     }
 
     [When(@"I send the request to the Create endpoint of the CaptchaController")]
     public async Task WhenISendTheRequestToTheCreateEndpointOfTheCaptchaController()
     {
-        var request = new RestRequest("captcha") // calls localhost/captcha
-        { RequestFormat = DataFormat.Json, Method = Method.Post };
-        request.AddJsonBody(_request);
+        var request = new RestRequest(TestConstants.CreateCaptchaEndpoint)
+        {
+            RequestFormat = DataFormat.Json,
+            Method = Method.Post
+        }.AddJsonBody(_request);
+
         _response = await Client.ExecuteAsync(request);
     }
 
@@ -45,8 +53,8 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
         using var ms = new MemoryStream(_response.RawBytes);
         var img = Image.FromStream(ms);
 
-        var expectedWidth = int.Parse(row["Width"], CultureInfo.InvariantCulture);
-        var expectedHeight = int.Parse(row["Height"], CultureInfo.InvariantCulture);
+        var expectedWidth = int.Parse(row[TestConstants.Width], CultureInfo.InvariantCulture);
+        var expectedHeight = int.Parse(row[TestConstants.Height], CultureInfo.InvariantCulture);
 
         Assert.That(img.Width, Is.EqualTo(expectedWidth));
         Assert.That(img.Height, Is.EqualTo(expectedHeight));
@@ -55,7 +63,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     [Then(@"I expect a captcha image to be returned without any black borders")]
     public void ThenIExpectACaptchaImageToBeReturnedWithoutAnyBlackBorders()
     {
-        using var ms = new MemoryStream(_response.RawBytes);
+        using var ms = new MemoryStream(_response!.RawBytes!);
         var img = Image.FromStream(ms);
         var bmp = new Bitmap(img);
 
