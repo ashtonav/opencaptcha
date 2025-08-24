@@ -1,8 +1,8 @@
 namespace Captcha.Core.Models;
 
-public record ErrorModel(Exception exceptionDetails)
+public record ErrorModel(Exception ExceptionDetails)
 {
-    public string Type { get; } = exceptionDetails.GetType().Name;
-    public string Message { get; } = exceptionDetails.Message;
-    public string StackTrace { get; } = exceptionDetails.ToString();
+    public string Type { get; } = ExceptionDetails.GetType().Name;
+    public string Message { get; } = ExceptionDetails.Message;
+    public string StackTrace { get; } = ExceptionDetails.ToString();
 }
