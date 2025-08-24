@@ -9,8 +9,6 @@ public class CaptchaImageService : ICaptchaImageService
 {
     public Bitmap CreateCaptchaImage(CaptchaConfigurationData config)
     {
-        ValidateRequest(config);
-
         var bitmap = new Bitmap(config.Width, config.Height, PixelFormat.Format16bppRgb555);
         using var graphics = Graphics.FromImage(bitmap);
         graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -22,29 +20,6 @@ public class CaptchaImageService : ICaptchaImageService
         AddRandomNoise(config, rectangle, graphics);
 
         return bitmap;
-    }
-
-    private static void ValidateRequest(CaptchaConfigurationData config)
-    {
-        ArgumentNullException.ThrowIfNull(config);
-
-        if (config.Width is <= Constants.MinCaptchaSize or > Constants.MaxCaptchaSize)
-        {
-            throw new ArgumentOutOfRangeException(
-                nameof(config),
-                config.Width,
-                $"Width must be between {Constants.MinCaptchaSize} and {Constants.MaxCaptchaSize} inclusive."
-            );
-        }
-
-        if (config.Height is <= Constants.MinCaptchaSize or > Constants.MaxCaptchaSize)
-        {
-            throw new ArgumentOutOfRangeException(
-                nameof(config),
-                config.Height,
-                $"Height must be between {Constants.MinCaptchaSize} and {Constants.MaxCaptchaSize} inclusive."
-            );
-        }
     }
 
     private static void AddRandomNoise(CaptchaConfigurationData config, Rectangle rectangle, Graphics graphics)
