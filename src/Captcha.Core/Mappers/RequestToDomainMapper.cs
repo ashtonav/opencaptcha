@@ -5,23 +5,39 @@ using static Models.CaptchaDifficulty;
 
 public class RequestToDomainMapper
 {
-    public CaptchaConfigurationData ToDomain(CaptchaRequest request) => new()
+    public CaptchaConfigurationData ToDomain(CaptchaRequest request)
     {
-        Text = request.Text,
-        Width = request.Width ?? Constants.DefaultCaptchaWidth,
-        Height = request.Height ?? Constants.DefaultCaptchaHeight,
-        Frequency = GetFrequency(request.Difficulty),
-        Font = Constants.DefaultCaptchaFontName,
-        PrimaryColor = Constants.DefaultPrimaryColor,
-        SecondaryColor = Constants.DefaultSecondaryColor,
-        ThirdColor = Constants.DefaultTertiaryColor,
-    };
+        var width = request.Width ?? Constants.DefaultCaptchaWidth;
+        var height = request.Height ?? Constants.DefaultCaptchaHeight;
 
-    private static float GetFrequency(CaptchaDifficulty? difficulty) => difficulty switch
+        return new CaptchaConfigurationData
+        {
+            Text = request.Text,
+            Width = width,
+            Height = height,
+            Frequency = GetFrequency(request.Difficulty, width, height),
+            PrimaryColor = Constants.DefaultPrimaryColor,
+            SecondaryColor = Constants.DefaultSecondaryColor,
+        };
+    }
+
+    private static float GetFrequency(CaptchaDifficulty? difficulty, int imageWidth, int imageHeight)
     {
-        Easy => 300F,
-        Challenging => 30F,
-        Hard => 20F,
-        Medium or _ => Constants.DefaultFrequency
-    };
+        var multiplier = difficulty switch
+        {
+            Easy => 300F,
+            Challenging => 30F,
+            Hard => 20F,
+            Medium or _ => Constants.DefaultFrequency
+        };
+
+        var scaling = imageWidth * imageHeight;
+
+        if (scaling < Constants.FrequencyScalingFactor)
+        {
+            return multiplier;
+        }
+
+        return scaling / Constants.FrequencyScalingFactor * multiplier;
+    }
 }

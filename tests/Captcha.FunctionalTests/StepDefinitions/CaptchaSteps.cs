@@ -1,11 +1,11 @@
 namespace Captcha.FunctionalTests.StepDefinitions;
 
-using System.Drawing;
 using System.Globalization;
 using Core.Models;
 using NUnit.Framework;
 using Reqnroll;
 using RestSharp;
+using SkiaSharp;
 using Support;
 
 [Binding]
@@ -51,7 +51,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     {
         var row = table.Rows[0];
         using var ms = new MemoryStream(_response.RawBytes);
-        var img = Image.FromStream(ms);
+        var img = SKImage.FromEncodedData(ms);
 
         var expectedWidth = int.Parse(row[TestConstants.Width], CultureInfo.InvariantCulture);
         var expectedHeight = int.Parse(row[TestConstants.Height], CultureInfo.InvariantCulture);
@@ -64,8 +64,8 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     public void ThenIExpectACaptchaImageToBeReturnedWithoutAnyBlackBorders()
     {
         using var ms = new MemoryStream(_response!.RawBytes!);
-        var img = Image.FromStream(ms);
-        var bmp = new Bitmap(img);
+        var img = SKImage.FromEncodedData(ms);
+        var bmp = SKBitmap.FromImage(img);
 
         for (var i = 0; i < bmp.Width; i++)
         {
@@ -74,9 +74,9 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
                 var pixel = bmp.GetPixel(i, j);
 
                 // If either R or G or B is less than 100, then it's a dark color
-                if (pixel.R < 100 || pixel.G < 100 || pixel.B < 100)
+                if (pixel.Red < 100 || pixel.Green < 100 || pixel.Blue < 100)
                 {
-                    throw new AssertionException($"Black/Dark color found in the image. Hex: {pixel.Name}");
+                    throw new AssertionException($"Black/Dark color found in the image. Hex: {pixel}");
                 }
             }
         }

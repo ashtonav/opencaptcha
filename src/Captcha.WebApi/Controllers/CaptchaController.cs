@@ -6,6 +6,7 @@ using Captcha.Core.Models;
 using Captcha.Core.Services;
 using Examples;
 using Microsoft.AspNetCore.Mvc;
+using SkiaSharp;
 using Swashbuckle.AspNetCore.Filters;
 
 [ApiController]
@@ -20,11 +21,13 @@ public class CaptchaController(ICaptchaImageService captchaImageService, Request
     public async Task<FileContentResult> CreateAsync(CaptchaRequest request)
     {
         var domain = requestToDomainMapper.ToDomain(request);
-
         using var created = captchaImageService.CreateCaptchaImage(domain);
 
         await using var memoryStream = new MemoryStream();
-        created.Save(memoryStream, Constants.CaptchaImageFormat);
+        SKImage.FromBitmap(created)
+            .Encode(SKEncodedImageFormat.Jpeg, 100)
+            .SaveTo(memoryStream);
+
         return new FileContentResult(memoryStream.ToArray(), Constants.CaptchaContentType);
     }
 }

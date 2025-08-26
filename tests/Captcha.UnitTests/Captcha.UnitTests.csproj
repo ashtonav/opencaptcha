@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Captcha.Core\Captcha.Core.csproj" />
+    <ProjectReference Include="../../src/Captcha.Core/Captcha.Core.csproj" />
   </ItemGroup>
 
 </Project>

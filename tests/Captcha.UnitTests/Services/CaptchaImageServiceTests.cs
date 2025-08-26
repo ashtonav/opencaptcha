@@ -1,10 +1,9 @@
 namespace Captcha.UnitTests.Services;
 
-using System.Drawing;
-using System.Drawing.Imaging;
 using Captcha.Core.Models;
 using Captcha.Core.Services;
 using NUnit.Framework;
+using SkiaSharp;
 
 [TestFixture]
 public class CaptchaImageTests
@@ -20,11 +19,9 @@ public class CaptchaImageTests
             Text = string.Empty,
             Width = 150,
             Height = 60,
-            Font = "Arial Unicode MS",
             Frequency = 5,
-            PrimaryColor = Color.Red,
-            SecondaryColor = Color.Green,
-            ThirdColor = Color.Blue
+            PrimaryColor = SKColors.Red,
+            SecondaryColor = SKColors.Blue
         };
 
         // Act
@@ -48,11 +45,9 @@ public class CaptchaImageTests
             Text = "High freq",
             Width = 200,
             Height = 80,
-            Font = "Arial Unicode MS",
             Frequency = 100000,
-            PrimaryColor = Color.Red,
-            SecondaryColor = Color.Green,
-            ThirdColor = Color.Blue
+            PrimaryColor = SKColors.Red,
+            SecondaryColor = SKColors.Blue
         };
 
         // Act & Assert
@@ -60,53 +55,6 @@ public class CaptchaImageTests
         {
             using var bmp = _service.CreateCaptchaImage(config);
             Assert.That(bmp, Is.Not.Null);
-        });
-    }
-
-    [Test]
-    public void CaptchaImageCreatesImageWithCorrectPixelFormat()
-    {
-        // Arrange
-        var config = new CaptchaConfigurationData
-        {
-            Text = "Pixel Format Test",
-            Width = 100,
-            Height = 50,
-            Font = "Arial Unicode MS",
-            Frequency = 3,
-            PrimaryColor = Color.Black,
-            SecondaryColor = Color.LightGray,
-            ThirdColor = Color.Gray
-        };
-
-        // Act
-        using var bmp = _service.CreateCaptchaImage(config);
-
-        // Assert
-        Assert.That(bmp.PixelFormat, Is.EqualTo(PixelFormat.Format16bppRgb555));
-    }
-
-    [Test]
-    public void CaptchaImageWithAlphaChannelColorsNoErrors()
-    {
-        // Arrange
-        var config = new CaptchaConfigurationData
-        {
-            Text = "Alpha",
-            Width = 120,
-            Height = 40,
-            Font = "Arial Unicode MS",
-            Frequency = 5,
-            PrimaryColor = Color.FromArgb(128, Color.Red),
-            SecondaryColor = Color.FromArgb(128, Color.Green),
-            ThirdColor = Color.FromArgb(128, Color.Blue)
-        };
-
-        // Act & Assert
-        Assert.DoesNotThrow(() =>
-        {
-            using var bitmap = _service.CreateCaptchaImage(config);
-            Assert.That(bitmap, Is.Not.Null);
         });
     }
 
@@ -120,11 +68,9 @@ public class CaptchaImageTests
             Text = longText,
             Width = 300,
             Height = 100,
-            Font = "Arial Unicode MS",
             Frequency = 5,
-            PrimaryColor = Color.Black,
-            SecondaryColor = Color.White,
-            ThirdColor = Color.Gray
+            PrimaryColor = SKColors.Black,
+            SecondaryColor = SKColors.Gray
         };
 
         // Act
@@ -161,11 +107,9 @@ public class CaptchaImageTests
             Text = "   ", // only whitespace
             Width = 100,
             Height = 50,
-            Font = "Arial Unicode MS",
             Frequency = 4,
-            PrimaryColor = Color.LightGray,
-            SecondaryColor = Color.DarkGray,
-            ThirdColor = Color.Gray
+            PrimaryColor = SKColors.LightGray,
+            SecondaryColor = SKColors.Gray
         };
 
         // Act
@@ -189,11 +133,9 @@ public class CaptchaImageTests
             Text = "WarpTest",
             Width = 120,
             Height = 50,
-            Font = "Arial Unicode MS",
             Frequency = 4,
-            PrimaryColor = Color.Blue,
-            SecondaryColor = Color.Red,
-            ThirdColor = Color.Green
+            PrimaryColor = SKColors.Blue,
+            SecondaryColor = SKColors.Green
         };
 
 
@@ -205,8 +147,12 @@ public class CaptchaImageTests
         using (var ms1 = new MemoryStream())
         using (var ms2 = new MemoryStream())
         {
-            bmp1.Save(ms1, ImageFormat.Png);
-            bmp2.Save(ms2, ImageFormat.Png);
+            var encoded = bmp1.Encode(SKEncodedImageFormat.Jpeg, 100);
+            encoded.SaveTo(ms1);
+
+            var encoded2 = bmp2.Encode(SKEncodedImageFormat.Jpeg, 100);
+            encoded2.SaveTo(ms2);
+
             data1 = ms1.ToArray();
             data2 = ms2.ToArray();
         }
@@ -225,11 +171,9 @@ public class CaptchaImageTests
             Text = "BackgroundCheck",
             Width = 100,
             Height = 40,
-            Font = "Arial Unicode MS",
             Frequency = 2,
-            PrimaryColor = Color.Yellow,
-            SecondaryColor = Color.Red,
-            ThirdColor = Color.Blue
+            PrimaryColor = SKColors.Yellow,
+            SecondaryColor = SKColors.Blue
         };
 
         // Act
@@ -241,7 +185,7 @@ public class CaptchaImageTests
             for (var y = 0; y < bitmap.Height; y += 5)
             {
                 var pixel = bitmap.GetPixel(x, y);
-                if (pixel != Color.Red && pixel != Color.Blue && pixel != Color.Yellow)
+                if (pixel != SKColors.Red && pixel != SKColors.Blue && pixel != SKColors.Yellow)
                 {
                     foundMixedColor = true;
                     break;
@@ -267,11 +211,9 @@ public class CaptchaImageTests
             Text = "ImmutableCheck",
             Width = 150,
             Height = 60,
-            Font = "Arial Unicode MS",
             Frequency = 10,
-            PrimaryColor = Color.Black,
-            SecondaryColor = Color.White,
-            ThirdColor = Color.Gray
+            PrimaryColor = SKColors.Black,
+            SecondaryColor = SKColors.Gray
         };
 
         var configCopy = new CaptchaConfigurationData
@@ -279,11 +221,9 @@ public class CaptchaImageTests
             Text = originalConfig.Text,
             Width = originalConfig.Width,
             Height = originalConfig.Height,
-            Font = originalConfig.Font,
             Frequency = originalConfig.Frequency,
             PrimaryColor = originalConfig.PrimaryColor,
-            SecondaryColor = originalConfig.SecondaryColor,
-            ThirdColor = originalConfig.ThirdColor
+            SecondaryColor = originalConfig.SecondaryColor
         };
 
         // Act
@@ -295,11 +235,9 @@ public class CaptchaImageTests
             Assert.That(originalConfig.Text, Is.EqualTo(configCopy.Text), "Text should remain unchanged.");
             Assert.That(originalConfig.Width, Is.EqualTo(configCopy.Width), "Width should remain unchanged.");
             Assert.That(originalConfig.Height, Is.EqualTo(configCopy.Height), "Height should remain unchanged.");
-            Assert.That(originalConfig.Font, Is.EqualTo(configCopy.Font), "Font should remain unchanged.");
             Assert.That(originalConfig.Frequency, Is.EqualTo(configCopy.Frequency), "Frequency should remain unchanged.");
             Assert.That(originalConfig.PrimaryColor, Is.EqualTo(configCopy.PrimaryColor), "PrimaryColor should remain unchanged.");
-            Assert.That(originalConfig.SecondaryColor, Is.EqualTo(configCopy.SecondaryColor), "SecondaryColor should remain unchanged.");
-            Assert.That(originalConfig.ThirdColor, Is.EqualTo(configCopy.ThirdColor), "TertiaryColor should remain unchanged.");
+            Assert.That(originalConfig.SecondaryColor, Is.EqualTo(configCopy.SecondaryColor), "TertiaryColor should remain unchanged.");
         }
     }
 
@@ -313,11 +251,9 @@ public class CaptchaImageTests
             Text = specialText,
             Width = 250,
             Height = 100,
-            Font = "Arial Unicode MS",
             Frequency = 6,
-            PrimaryColor = Color.Brown,
-            SecondaryColor = Color.Beige,
-            ThirdColor = Color.Pink
+            PrimaryColor = SKColors.Brown,
+            SecondaryColor = SKColors.Pink
         };
 
         // Act
@@ -341,11 +277,9 @@ public class CaptchaImageTests
             Text = "W",
             Width = 150,
             Height = 50,
-            Font = "Arial Unicode MS",
             Frequency = 5,
-            PrimaryColor = Color.Black,
-            SecondaryColor = Color.LightGray,
-            ThirdColor = Color.Gray
+            PrimaryColor = SKColors.Black,
+            SecondaryColor = SKColors.Gray
         };
 
         // Act

@@ -4,8 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>../..</DockerfileContext>
     <RootNamespace>Captcha.FunctionalTests</RootNamespace>
   </PropertyGroup>
 
@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Captcha.Core\Captcha.Core.csproj" />
-    <ProjectReference Include="..\..\src\Captcha.WebApi\CaptchaWebApi.csproj" />
+    <ProjectReference Include="../../src/Captcha.Core/Captcha.Core.csproj" />
+    <ProjectReference Include="../../src/Captcha.WebApi/CaptchaWebApi.csproj" />
   </ItemGroup>
 
 </Project>

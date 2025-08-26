@@ -1,9 +1,8 @@
 namespace Captcha.UnitTests;
 
-using System.Drawing;
-using System.Drawing.Imaging;
 using Core;
 using NUnit.Framework;
+using SkiaSharp;
 
 [TestFixture]
 public class ConstantsTests
@@ -24,22 +23,20 @@ public class ConstantsTests
     public void DefaultFrequencyShouldBe100() => Assert.That(Constants.DefaultFrequency, Is.EqualTo(100F));
 
     [Test]
-    public void DefaultCaptchaFontNameShouldBeArialUnicodeMs() => Assert.That(Constants.DefaultCaptchaFontName, Is.EqualTo("Arial Unicode MS"));
+    public void DefaultCaptchaFontNameShouldBeArimo() => Assert.That(Constants.DefaultCaptchaFontName, Is.EqualTo("Arimo"));
 
     [Test]
-    public void DefaultPrimaryColorShouldBeDarkGray() => Assert.That(Constants.DefaultPrimaryColor, Is.EqualTo(Color.DarkGray));
+    public void FallbackCaptchaFontNameShouldBeUnifont() => Assert.That(Constants.DefaultCaptchaFallbackFontName, Is.EqualTo("Unifont"));
+
 
     [Test]
-    public void DefaultSecondaryColorShouldBeLightGray() => Assert.That(Constants.DefaultSecondaryColor, Is.EqualTo(Color.LightGray));
+    public void DefaultPrimaryColorShouldBeDarkGray() => Assert.That(Constants.DefaultPrimaryColor, Is.EqualTo(SKColor.Parse("FFD3D3D3")));
 
     [Test]
-    public void DefaultThirdColorShouldBeWhite() => Assert.That(Constants.DefaultTertiaryColor, Is.EqualTo(Color.White));
+    public void DefaultSecondaryColorShouldBeWhite() => Assert.That(Constants.DefaultSecondaryColor, Is.EqualTo(SKColor.Parse("FFFFFFFF")));
 
     [Test]
     public void CaptchaContentTypeShouldBeImageJpeg() => Assert.That(Constants.CaptchaContentType, Is.EqualTo("image/jpeg"));
-
-    [Test]
-    public void CaptchaImageFormatShouldBeJpeg() => Assert.That(Constants.CaptchaImageFormat.Guid, Is.EqualTo(ImageFormat.Jpeg.Guid));
 
     [Test]
     public void WarpCaptchaTextFrequencyShouldBe4() => Assert.That(Constants.WarpCaptchaTextFrequency, Is.EqualTo(4F));

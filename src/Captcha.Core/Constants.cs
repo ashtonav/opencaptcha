@@ -1,7 +1,6 @@
 namespace Captcha.Core;
 
-using System.Drawing;
-using System.Drawing.Imaging;
+using SkiaSharp;
 
 public static class Constants
 {
@@ -10,12 +9,12 @@ public static class Constants
     public const int DefaultCaptchaWidth = 400;
     public const int DefaultCaptchaHeight = 100;
     public const float DefaultFrequency = 100F;
-    public const string DefaultCaptchaFontName = "Arial Unicode MS";
-    public static readonly Color DefaultPrimaryColor = Color.DarkGray;
-    public static readonly Color DefaultSecondaryColor = Color.LightGray;
-    public static readonly Color DefaultTertiaryColor = Color.White;
+    public const int FrequencyScalingFactor = 40000; // on a 400 x 100 image
+    public const string DefaultCaptchaFontName = "Arimo";
+    public const string DefaultCaptchaFallbackFontName = "Unifont";
+    public static readonly SKColor DefaultPrimaryColor = SKColor.Parse("FFD3D3D3");
+    public static readonly SKColor DefaultSecondaryColor = SKColor.Parse("FFFFFFFF");
     public const string CaptchaContentType = "image/jpeg";
-    public static readonly ImageFormat CaptchaImageFormat = ImageFormat.Jpeg;
     public const float WarpCaptchaTextFrequency = 4F;
     public const int CaptchaNoise = 50;
 }
