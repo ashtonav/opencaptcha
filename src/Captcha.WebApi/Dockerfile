@@ -6,9 +6,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble AS base
 # -- INSTALL FONTS --
 RUN apt-get update -y
 # Install Arimo
-RUN apt-get install -y fonts-croscore
+RUN apt-get --no-install-recommends install -y fonts-croscore
 # Install Unifont
-RUN apt-get install -y fonts-unifont
+RUN apt-get --no-install-recommends install -y fonts-unifont
 # -------------------
 
 USER $APP_UID
