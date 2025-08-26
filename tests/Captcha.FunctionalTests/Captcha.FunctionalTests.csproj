@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>../..</DockerfileContext>
+    <DockerfileContext>..\..</DockerfileContext>
     <RootNamespace>Captcha.FunctionalTests</RootNamespace>
   </PropertyGroup>
 
@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/Captcha.Core/Captcha.Core.csproj" />
-    <ProjectReference Include="../../src/Captcha.WebApi/CaptchaWebApi.csproj" />
+    <ProjectReference Include="..\..\src\Captcha.WebApi\Captcha.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaptchaWebApi", "src\Captcha.WebApi\CaptchaWebApi.csproj", "{644118F6-7315-4621-8083-271E8AA7367A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Captcha.WebApi", "src\Captcha.WebApi\Captcha.WebApi.csproj", "{644118F6-7315-4621-8083-271E8AA7367A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Captcha.Core", "src\Captcha.Core\Captcha.Core.csproj", "{A0D45FCB-8846-44EB-94F5-C2B0D667B191}"
 EndProject
