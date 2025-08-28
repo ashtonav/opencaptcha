@@ -30,7 +30,16 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
                 : int.Parse(row[TestConstants.Height], CultureInfo.InvariantCulture),
             Difficulty = string.IsNullOrEmpty(row[TestConstants.Difficulty])
                 ? null
-                : Enum.Parse<CaptchaDifficulty>(row[TestConstants.Difficulty], true)
+                : Enum.Parse<CaptchaDifficulty>(row[TestConstants.Difficulty], true),
+            Theme = new ThemeConfiguration()
+            {
+                PrimaryColor = !row.ContainsKey(TestConstants.PrimaryColor)
+                ? null
+                : row[TestConstants.PrimaryColor],
+                SecondaryColor = !row.ContainsKey(TestConstants.SecondaryColor)
+                ? null
+                : row[TestConstants.SecondaryColor]
+            }
         };
     }
 
@@ -80,5 +89,43 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
                 }
             }
         }
+    }
+
+    [Then("I expect a captcha image to contain at least {string} pixels of color {string} and at least {string} pixels of color {string}")]
+    public void ThenIExpectACaptchaImageToContainPixelsOfColorAndPixelsOfColor
+        (string firstColorAmountOfPixels, string firstColorHex, string secondColorAmountOfPixels, string secondColorHex)
+    {
+        var firstColor = SKColor.Parse(firstColorHex);
+        var firstColorExpectedAmount = int.Parse(firstColorAmountOfPixels, CultureInfo.InvariantCulture);
+
+        var secondColor = SKColor.Parse(secondColorHex);
+        var secondColorExpectedAmount = int.Parse(secondColorAmountOfPixels, CultureInfo.InvariantCulture);
+
+        using var ms = new MemoryStream(_response!.RawBytes!);
+        var img = SKImage.FromEncodedData(ms);
+        var bmp = SKBitmap.FromImage(img);
+
+        var firstColorActualAmount = 0;
+        var secondColorActualAmount = 0;
+
+        for (var i = 0; i < bmp.Width; i++)
+        {
+            for (var j = 0; j < bmp.Height; j++)
+            {
+                var pixel = bmp.GetPixel(i, j);
+
+                if (pixel == firstColor)
+                {
+                    firstColorActualAmount++;
+                }
+                else if (pixel == secondColor)
+                {
+                    secondColorActualAmount++;
+                }
+            }
+        }
+
+        Assert.That(firstColorActualAmount, Is.AtLeast(firstColorExpectedAmount));
+        Assert.That(secondColorActualAmount, Is.AtLeast(secondColorExpectedAmount));
     }
 }

@@ -1,4 +1,4 @@
-namespace CaptchaWebApi.Controllers;
+namespace Captcha.WebApi.Controllers;
 
 using Captcha.Core.Models;
 using Microsoft.AspNetCore.Diagnostics;

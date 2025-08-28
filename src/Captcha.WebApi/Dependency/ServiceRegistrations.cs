@@ -1,4 +1,4 @@
-namespace CaptchaWebApi.Dependency;
+namespace Captcha.WebApi.Dependency;
 
 using Captcha.Core.Mappers;
 using Captcha.Core.Services;

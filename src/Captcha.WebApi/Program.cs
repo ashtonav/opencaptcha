@@ -1,4 +1,4 @@
-using CaptchaWebApi.Dependency;
+using Captcha.WebApi.Dependency;
 
 var builder = WebApplication.CreateBuilder(args);
 
