@@ -6,5 +6,5 @@ public record CaptchaRequest
     public int? Width { get; init; }
     public int? Height { get; init; }
     public CaptchaDifficulty? Difficulty { get; init; }
-    public ColorSettings? Colors { get; set; }
+    public ThemeConfiguration? Theme { get; set; }
 }
