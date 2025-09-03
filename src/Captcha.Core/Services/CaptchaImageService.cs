@@ -110,16 +110,26 @@ public class CaptchaImageService : ICaptchaImageService
 
     private static SKTypeface GetTypefaceThatCanRenderText(string text)
     {
-        var mainTypeface = SKTypeface.FromFamilyName(Constants.DefaultCaptchaFontName);
-        var mainFont = new SKFont(mainTypeface);
-
-        if (!mainFont.ContainsGlyphs(text))
+        // Try to load Caveat font from embedded resource
+        var assembly = typeof(CaptchaImageService).Assembly;
+        using var stream = assembly.GetManifestResourceStream("Captcha.Core.Resources.Fonts.Caveat-SemiBold.ttf");
+        if (stream != null)
         {
-            return SKTypeface.FromFamilyName(Constants.DefaultCaptchaFallbackFontName);
+            var typeface = SKTypeface.FromStream(stream);
+            if (typeface != null)
+            {
+                var font = new SKFont(typeface);
+                if (font.ContainsGlyphs(text))
+                {
+                    return typeface;
+                }
+            }
         }
 
-        return mainTypeface;
+        // Fallback if Caveat is missing or doesn't support text
+        return SKTypeface.Default;
     }
+
 
     /// <summary>
     /// This method applies similar logic to GraphicsPath.Warp() from System.Drawing.Common
