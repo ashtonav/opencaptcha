@@ -1,0 +1,13 @@
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\bin\Debug\net9.0\Captcha.Core.deps.json
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\bin\Debug\net9.0\Captcha.Core.dll
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\bin\Debug\net9.0\Captcha.Core.pdb
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.csproj.AssemblyReference.cache
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.AssemblyInfoInputs.cache
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.AssemblyInfo.cs
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.csproj.CoreCompileInputs.cache
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.sourcelink.json
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.dll
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\refint\Captcha.Core.dll
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\Captcha.Core.pdb
+C:\Users\armul\Downloads\opencaptcha\src\Captcha.Core\obj\Debug\net9.0\ref\Captcha.Core.dll
