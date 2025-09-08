@@ -127,7 +127,7 @@ public class CaptchaImageService : ICaptchaImageService
         }
 
         // Fallback if Caveat is missing or doesn't support text
-        return SKTypeface.Default;
+        return SKTypeface.FromFamilyName(Constants.DefaultCaptchaFallbackFontName);
     }
 
 
