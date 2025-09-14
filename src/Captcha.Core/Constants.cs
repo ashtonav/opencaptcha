@@ -10,8 +10,8 @@ public static class Constants
     public const int DefaultCaptchaHeight = 100;
     public const float DefaultFrequency = 100F;
     public const int FrequencyScalingFactor = 40000; // on a 400 x 100 image
-    public const string DefaultCaptchaFontName = "Arimo";
-    public const string DefaultCaptchaFallbackFontName = "Unifont";
+    public const string DefaultCaptchaFontName = "Captcha.Core.Resources.Fonts.Caveat-SemiBold.ttf";
+    public const string DefaultCaptchaFallbackFontName = "Captcha.Core.Resources.Fonts.Unifont.ttf";
     public static readonly SKColor DefaultPrimaryColor = SKColor.Parse("FFD3D3D3");
     public static readonly SKColor DefaultSecondaryColor = SKColor.Parse("FFFFFFFF");
     public const string CaptchaContentType = "image/jpeg";

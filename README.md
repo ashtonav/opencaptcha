@@ -63,7 +63,6 @@ curl -X 'POST' \
 - Visual Studio 2022
     - With ASP.NET and web development installed from the Visual Studio Installer
 - .NET 9 SDK
-- Arimo and Unifont fonts 
 
 #### How to Run
 1. Open the solution in Visual Studio 2022.

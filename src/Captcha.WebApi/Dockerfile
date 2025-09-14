@@ -3,14 +3,6 @@
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble AS base
 
-# -- INSTALL FONTS USED TO RENDER CAPTCHA IMAGES --
-RUN apt-get update -y
-# Install Arimo
-RUN apt-get --no-install-recommends install -y fonts-croscore
-# Install Unifont
-RUN apt-get --no-install-recommends install -y fonts-unifont
-# -------------------------------------------------
-
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
