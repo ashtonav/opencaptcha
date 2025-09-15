@@ -8,9 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Fonts\Caveat-Bold.ttf" />
-    <None Remove="Resources\Fonts\Caveat-Regular.ttf" />
     <None Remove="Resources\Fonts\Caveat-SemiBold.ttf" />
+    <None Remove="Resources\Fonts\Unifont.ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,11 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Fonts\Caveat-Bold.ttf" />
-    <EmbeddedResource Include="Resources\Fonts\Caveat-Regular.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Fonts\Caveat-SemiBold.ttf" />
+    <EmbeddedResource Include="Resources\Fonts\Unifont.ttf" />
   </ItemGroup>
 
 </Project>

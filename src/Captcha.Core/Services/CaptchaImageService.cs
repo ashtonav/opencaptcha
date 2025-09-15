@@ -6,6 +6,22 @@ using SkiaSharp;
 
 public class CaptchaImageService : ICaptchaImageService
 {
+    private readonly SKTypeface _mainFontTypeface;
+    private readonly SKTypeface _fallbackFontTypeface;
+
+    public CaptchaImageService()
+    {
+        var assembly = typeof(CaptchaImageService).Assembly;
+
+        _mainFontTypeface = SKTypeface.FromStream(
+            assembly.GetManifestResourceStream(Constants.DefaultCaptchaFontName)
+        );
+
+        _fallbackFontTypeface = SKTypeface.FromStream(
+            assembly.GetManifestResourceStream(Constants.DefaultCaptchaFallbackFontName)
+        );
+    }
+
     public SKBitmap CreateCaptchaImage(CaptchaConfigurationData config)
     {
         var bitmap = new SKBitmap(new SKImageInfo(config.Width, config.Height));
@@ -73,7 +89,7 @@ public class CaptchaImageService : ICaptchaImageService
         graphics.DrawPath(path, fillPaint);
     }
 
-    private static SKFont GetFontThatFitsRectangle(CaptchaConfigurationData config, SKRect rectangle)
+    private SKFont GetFontThatFitsRectangle(CaptchaConfigurationData config, SKRect rectangle)
     {
         var typeface = GetTypefaceThatCanRenderText(config.Text);
 
@@ -96,7 +112,6 @@ public class CaptchaImageService : ICaptchaImageService
         return font;
     }
 
-
     private static void FillInTheBackground(CaptchaConfigurationData config, SKRect rectangle, SKCanvas graphics)
     {
         using var paint = new SKPaint
@@ -108,28 +123,17 @@ public class CaptchaImageService : ICaptchaImageService
         graphics.DrawRect(rectangle, paint);
     }
 
-    private static SKTypeface GetTypefaceThatCanRenderText(string text)
+    private SKTypeface GetTypefaceThatCanRenderText(string text)
     {
-        // Try to load Caveat font from embedded resource
-        var assembly = typeof(CaptchaImageService).Assembly;
-        using var stream = assembly.GetManifestResourceStream("Captcha.Core.Resources.Fonts.Caveat-SemiBold.ttf");
-        if (stream != null)
+        using var mainFont = new SKFont(_mainFontTypeface);
+
+        if (mainFont.ContainsGlyphs(text))
         {
-            var typeface = SKTypeface.FromStream(stream);
-            if (typeface != null)
-            {
-                var font = new SKFont(typeface);
-                if (font.ContainsGlyphs(text))
-                {
-                    return typeface;
-                }
-            }
+            return _mainFontTypeface;
         }
 
-        // Fallback if Caveat is missing or doesn't support text
-        return SKTypeface.FromFamilyName(Constants.DefaultCaptchaFallbackFontName);
+        return _fallbackFontTypeface;
     }
-
 
     /// <summary>
     /// This method applies similar logic to GraphicsPath.Warp() from System.Drawing.Common
