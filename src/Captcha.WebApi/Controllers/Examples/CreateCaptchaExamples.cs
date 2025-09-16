@@ -1,4 +1,4 @@
-namespace CaptchaWebApi.Controllers.Examples;
+namespace Captcha.WebApi.Controllers.Examples;
 
 using Captcha.Core.Models;
 using Swashbuckle.AspNetCore.Filters;
@@ -12,7 +12,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
             "Example 1 - Create captcha with text",
             new CaptchaRequest
             {
-                Text = "hello"
+                Text = "hello world"
             });
 
         yield return SwaggerExample.Create(
@@ -20,7 +20,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
             "Example 2 - Create challenging captcha with text",
             new CaptchaRequest
             {
-                Text = "hello",
+                Text = "hello world",
                 Difficulty = CaptchaDifficulty.Challenging
             });
 
@@ -29,7 +29,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
             "Example 3 - Create hard captcha with text",
             new CaptchaRequest
             {
-                Text = "hello",
+                Text = "hello world",
                 Difficulty = CaptchaDifficulty.Hard
             });
 
@@ -41,6 +41,19 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
                 Text = "world",
                 Height = 300,
                 Width = 300
+            });
+
+        yield return SwaggerExample.Create(
+            "Example 5",
+            "Example 5 - Create captcha with a color theme",
+            new CaptchaRequest
+            {
+                Text = "hello world",
+                Theme = new ThemeConfiguration
+                {
+                    PrimaryColor = "#ADD8E6",
+                    SecondaryColor = "#FFFFFF",
+                }
             });
     }
 }

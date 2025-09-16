@@ -1,6 +1,7 @@
 namespace Captcha.Core.Mappers;
 
 using Models;
+using SkiaSharp;
 using static Models.CaptchaDifficulty;
 
 public class RequestToDomainMapper
@@ -16,8 +17,8 @@ public class RequestToDomainMapper
             Width = width,
             Height = height,
             Frequency = GetFrequency(request.Difficulty, width, height),
-            PrimaryColor = Constants.DefaultPrimaryColor,
-            SecondaryColor = Constants.DefaultSecondaryColor,
+            PrimaryColor = GetColor(request.Theme?.PrimaryColor) ?? Constants.DefaultPrimaryColor,
+            SecondaryColor = GetColor(request.Theme?.SecondaryColor) ?? Constants.DefaultSecondaryColor,
         };
     }
 
@@ -39,5 +40,16 @@ public class RequestToDomainMapper
         }
 
         return scaling / Constants.FrequencyScalingFactor * multiplier;
+    }
+
+
+    private static SKColor? GetColor(string? hex)
+    {
+        if (string.IsNullOrWhiteSpace(hex))
+        {
+            return null;
+        }
+
+        return SKColor.Parse(hex);
     }
 }
