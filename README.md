@@ -42,6 +42,26 @@ curl -X 'POST' \
   -d '{ "text": "普通" }'
 ```
 
+### Example 3: Generated CAPTCHA images can be in a different colors
+
+![banner](docs/captcha_example_colors.gif)
+
+[![Try it out](https://img.shields.io/badge/-Try%20it%20out-brightgreen?style=for-the-badge)](https://hoppscotch.io/?method=POST&url=https%3A%2F%2Fapi.opencaptcha.io%2Fcaptcha&bodyMode=raw&contentType=application%2Fjson&rawParams=%7B%22text%22%3A%22hello%20world%22%2C%22theme%22%3A%7B%22primaryColor%22%3A%22%23ADD8E6%22%2C%22secondaryColor%22%3A%22%23FFFFFF%22%7D%7D)
+
+
+```bash
+curl -X 'POST' \
+  'https://api.opencaptcha.io/captcha' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "text": "hello world",
+    "theme": {
+      "primaryColor": "#ADD8E6",
+      "secondaryColor": "#FFFFFF"
+    }
+  }'
+```
+
 ## Installation
 
 ### Option 1: Using Docker (recommended for self-hosting)
