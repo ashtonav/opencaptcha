@@ -322,4 +322,190 @@ public class RequestToDomainMapperTests
         Assert.That(result.Text, Has.Length.EqualTo(10_000));
         Assert.That(result.Text, Is.EqualTo(longText));
     }
+
+    [Test]
+    public void ToDomainUsesDefaultHeightWhenOnlyWidthProvided()
+    {
+        // Arrange
+        var request = new CaptchaRequest { Text = "w-only", Width = 321 };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(321));
+            Assert.That(result.Height, Is.EqualTo(Constants.DefaultCaptchaHeight));
+        }
+    }
+
+    [Test]
+    public void ToDomainUsesDefaultWidthWhenOnlyHeightProvided()
+    {
+        // Arrange
+        var request = new CaptchaRequest { Text = "h-only", Height = 654 };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(Constants.DefaultCaptchaWidth));
+            Assert.That(result.Height, Is.EqualTo(654));
+        }
+    }
+
+    [Test]
+    public void ToDomainUsesProvidedThemeColorsWhenValidHex()
+    {
+        // Arrange
+        var request = new CaptchaRequest
+        {
+            Text = "colors",
+            Theme = new()
+            {
+                PrimaryColor = "#112233",
+                SecondaryColor = "#AABBCC"
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#112233")));
+            Assert.That(result.SecondaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#AABBCC")));
+        }
+    }
+
+    [Test]
+    public void ToDomainParsesHexCaseInsensitively()
+    {
+        // Arrange
+        var request = new CaptchaRequest
+        {
+            Text = "test",
+            Theme = new()
+            {
+                PrimaryColor = "#a1b2c3",
+                SecondaryColor = "#80FF0000"
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        var expectedPrimary = SkiaSharp.SKColor.Parse("#A1B2C3");
+        var expectedSecondary = SkiaSharp.SKColor.Parse("#80FF0000");
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(expectedPrimary));
+            Assert.That(result.SecondaryColor, Is.EqualTo(expectedSecondary));
+            Assert.That(result.SecondaryColor.Alpha, Is.EqualTo(expectedSecondary.Alpha));
+            Assert.That(result.SecondaryColor.Red, Is.EqualTo(expectedSecondary.Red));
+            Assert.That(result.SecondaryColor.Green, Is.EqualTo(expectedSecondary.Green));
+            Assert.That(result.SecondaryColor.Blue, Is.EqualTo(expectedSecondary.Blue));
+        }
+    }
+
+    [Test]
+    public void ToDomainUsesDefaultColorsWhenThemeProvidedButEmptyOrWhitespace()
+    {
+        // Arrange
+        var request = new CaptchaRequest
+        {
+            Text = "empty theme",
+            Theme = new()
+            {
+                PrimaryColor = "   ",
+                SecondaryColor = ""
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(Constants.DefaultPrimaryColor));
+            Assert.That(result.SecondaryColor, Is.EqualTo(Constants.DefaultSecondaryColor));
+        }
+    }
+
+    [Test]
+    public void ToDomainUsesDefaultSecondaryColorWhenOnlyPrimaryProvided()
+    {
+        // Arrange
+        var request = new CaptchaRequest
+        {
+            Text = "only primary",
+            Theme = new()
+            {
+                PrimaryColor = "#010203",
+                SecondaryColor = null
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#010203")));
+            Assert.That(result.SecondaryColor, Is.EqualTo(Constants.DefaultSecondaryColor));
+        }
+    }
+
+    [Test]
+    public void ToDomainUsesDefaultPrimaryColorWhenOnlySecondaryProvided()
+    {
+        // Arrange
+        var request = new CaptchaRequest
+        {
+            Text = "only secondary",
+            Theme = new()
+            {
+                PrimaryColor = null,
+                SecondaryColor = "#0A0B0C"
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(Constants.DefaultPrimaryColor));
+            Assert.That(result.SecondaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#0A0B0C")));
+        }
+    }
+
+
+    [Test]
+    public void ToDomainDefaultFrequencyForUnknownDifficultyIsNotLessThanBaseForLargeArea()
+    {
+        // Arrange
+        var request = new CaptchaRequest
+        {
+            Difficulty = (CaptchaDifficulty)999,
+            Width = 10_000,
+            Height = 10_000,
+            Text = "",
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Frequency, Is.GreaterThan(Constants.DefaultFrequency));
+    }
 }
