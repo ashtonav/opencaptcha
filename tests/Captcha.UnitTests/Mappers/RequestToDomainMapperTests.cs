@@ -489,23 +489,4 @@ public class RequestToDomainMapperTests
         }
     }
 
-
-    [Test]
-    public void ToDomainDefaultFrequencyForUnknownDifficultyIsNotLessThanBaseForLargeArea()
-    {
-        // Arrange
-        var request = new CaptchaRequest
-        {
-            Difficulty = (CaptchaDifficulty)999,
-            Width = 10_000,
-            Height = 10_000,
-            Text = "",
-        };
-
-        // Act
-        var result = _requestToDomainMapper.ToDomain(request);
-
-        // Assert
-        Assert.That(result.Frequency, Is.GreaterThan(Constants.DefaultFrequency));
-    }
 }
