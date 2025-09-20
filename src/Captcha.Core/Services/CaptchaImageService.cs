@@ -6,22 +6,6 @@ using SkiaSharp;
 
 public class CaptchaImageService : ICaptchaImageService
 {
-    private readonly SKTypeface _mainFontTypeface;
-    private readonly SKTypeface _fallbackFontTypeface;
-
-    public CaptchaImageService()
-    {
-        var assembly = typeof(CaptchaImageService).Assembly;
-
-        _mainFontTypeface = SKTypeface.FromStream(
-            assembly.GetManifestResourceStream(Constants.DefaultCaptchaFontName)
-        );
-
-        _fallbackFontTypeface = SKTypeface.FromStream(
-            assembly.GetManifestResourceStream(Constants.DefaultCaptchaFallbackFontName)
-        );
-    }
-
     public SKBitmap CreateCaptchaImage(CaptchaConfigurationData config)
     {
         var bitmap = new SKBitmap(new SKImageInfo(config.Width, config.Height));
@@ -125,14 +109,14 @@ public class CaptchaImageService : ICaptchaImageService
 
     private SKTypeface GetTypefaceThatCanRenderText(string text)
     {
-        using var mainFont = new SKFont(_mainFontTypeface);
+        using var mainFont = new SKFont(Constants.MainFontTypeface);
 
         if (mainFont.ContainsGlyphs(text))
         {
-            return _mainFontTypeface;
+            return Constants.MainFontTypeface;
         }
 
-        return _fallbackFontTypeface;
+        return Constants.FallbackFontTypeface;
     }
 
     /// <summary>
