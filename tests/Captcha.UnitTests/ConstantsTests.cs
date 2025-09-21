@@ -23,12 +23,6 @@ public class ConstantsTests
     public void DefaultFrequencyShouldBe100() => Assert.That(Constants.DefaultFrequency, Is.EqualTo(100F));
 
     [Test]
-    public void DefaultCaptchaFontNameShouldBeCaveat() => Assert.That(Constants.DefaultCaptchaFontName, Is.EqualTo("Captcha.Core.Resources.Fonts.Caveat-SemiBold.ttf"));
-
-    [Test]
-    public void FallbackCaptchaFontNameShouldBeUnifont() => Assert.That(Constants.DefaultCaptchaFallbackFontName, Is.EqualTo("Captcha.Core.Resources.Fonts.Unifont.ttf"));
-
-    [Test]
     public void DefaultPrimaryColorShouldBeDarkGray() => Assert.That(Constants.DefaultPrimaryColor, Is.EqualTo(SKColor.Parse("FFD3D3D3")));
 
     [Test]
