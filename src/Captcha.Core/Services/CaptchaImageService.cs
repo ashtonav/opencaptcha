@@ -73,7 +73,7 @@ public class CaptchaImageService : ICaptchaImageService
         graphics.DrawPath(path, fillPaint);
     }
 
-    private SKFont GetFontThatFitsRectangle(CaptchaConfigurationData config, SKRect rectangle)
+    private static SKFont GetFontThatFitsRectangle(CaptchaConfigurationData config, SKRect rectangle)
     {
         var typeface = GetTypefaceThatCanRenderText(config.Text);
 
@@ -107,7 +107,7 @@ public class CaptchaImageService : ICaptchaImageService
         graphics.DrawRect(rectangle, paint);
     }
 
-    private SKTypeface GetTypefaceThatCanRenderText(string text)
+    private static SKTypeface GetTypefaceThatCanRenderText(string text)
     {
         using var mainFont = new SKFont(Constants.MainFontTypeface);
 
