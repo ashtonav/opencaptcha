@@ -16,11 +16,11 @@ public static class Constants
     public const float WarpCaptchaTextFrequency = 4F;
     public const int CaptchaNoise = 50;
 
-    // According to https://api.skia.org/classSkTypeface.html#details, this should be thread-safe
+    // According to https://learn.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface, this should be thread-safe
     public static SKTypeface MainFontTypeface { get; } =
         SKTypeface.FromStream(typeof(Constants).Assembly.GetManifestResourceStream("Captcha.Core.Resources.Fonts.Caveat-SemiBold.ttf"));
 
-    // According to https://api.skia.org/classSkTypeface.html#details, this should be thread-safe
+    // According to https://learn.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface, this should be thread-safe
     public static SKTypeface FallbackFontTypeface { get; } =
         SKTypeface.FromStream(typeof(Constants).Assembly.GetManifestResourceStream("Captcha.Core.Resources.Fonts.Unifont.ttf"));
 }
