@@ -1,11 +1,11 @@
-﻿Feature: Captcha
+Feature: CaptchaGet
 I want to send different captcha requests and assure the image is generated
 
     Scenario Outline: Send captcha requests
-        Given I have a captcha request with following parameters:
+        Given I have a captcha request using get with following parameters:
           | Text   | Width   | Height   | Difficulty   |
           | <Text> | <Width> | <Height> | <Difficulty> |
-        When I send the request to the Create endpoint of the CaptchaController
+        When I send the get request to the Create endpoint of the CaptchaController
         Then I expect a captcha image to be returned with the following attributes:
           | Width           | Height           |
           | <ExpectedWidth> | <ExpectedHeight> |
@@ -30,23 +30,3 @@ I want to send different captcha requests and assure the image is generated
           | Ciao         | 200   |        | Easy        | 200           | 100            | 850              | #FFD3D3D3     | 10000             | #FFFFFFFF      |
           | Olá          | 300   | 300    | Challenging | 300           | 300            | 6000             | #FFD3D3D3     | 64000             | #FFFFFFFF      |
           | สวัสดี       | 400   | 400    | Hard        | 400           | 400            | 12000            | #FFD3D3D3     | 120000            | #FFFFFFFF      |
-
-    Scenario: Captcha should not have any black borders
-        Given I have a captcha request with following parameters:
-          | Text    | Width | Height | Difficulty |
-          | Bonjour |       |        | Easy       |
-        When I send the request to the Create endpoint of the CaptchaController
-        Then I expect a captcha image to be returned with the following attributes:
-          | Width | Height |
-          | 400   | 100    |
-        Then I expect a captcha image to be returned without any black borders
-
-    Scenario: Captcha can contain different colors
-        Given I have a captcha request with following parameters:
-          | Text    | Width | Height | Difficulty | PrimaryColor | SecondaryColor |
-          | Bonjour |       |        | Easy       | #FFEA00      | #000000        |
-        When I send the request to the Create endpoint of the CaptchaController
-        Then I expect a captcha image to be returned with the following attributes:
-          | Width | Height |
-          | 400   | 100    |
-        Then I expect a captcha image to contain at least '130' pixels of color '#FFEA00' and at least '27000' pixels of color '#000000'

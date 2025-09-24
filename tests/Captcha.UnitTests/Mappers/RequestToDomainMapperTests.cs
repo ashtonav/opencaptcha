@@ -17,7 +17,7 @@ public class RequestToDomainMapperTests
     public void ToDomainMapsTextCorrectly()
     {
         // Arrange
-        var request = new CaptchaRequest { Text = "test text" };
+        var request = new PostCreateCaptchaRequest { Text = "test text" };
 
         // Act
         var result = _requestToDomainMapper.ToDomain(request);
@@ -30,7 +30,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultWidthAndHeightWhenNotProvided()
     {
         // Arrange
-        var request = new CaptchaRequest { Text = "some text" };
+        var request = new PostCreateCaptchaRequest { Text = "some text" };
 
         // Act
         var result = _requestToDomainMapper.ToDomain(request);
@@ -47,7 +47,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesProvidedWidthAndHeight()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Width = 500,
             Height = 300,
@@ -69,7 +69,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultFrequencyWhenDifficultyNotProvided()
     {
         // Arrange
-        var request = new CaptchaRequest { Text = "default freq" };
+        var request = new PostCreateCaptchaRequest { Text = "default freq" };
 
         // Act
         var result = _requestToDomainMapper.ToDomain(request);
@@ -82,25 +82,25 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesCorrectFrequencyForDifficulty()
     {
         // Arrange
-        var easyRequest = new CaptchaRequest
+        var easyRequest = new PostCreateCaptchaRequest
         {
             Difficulty = CaptchaDifficulty.Easy,
             Text = "easy"
         };
 
-        var mediumRequest = new CaptchaRequest
+        var mediumRequest = new PostCreateCaptchaRequest
         {
             Difficulty = CaptchaDifficulty.Medium,
             Text = "medium"
         };
 
-        var challengingRequest = new CaptchaRequest
+        var challengingRequest = new PostCreateCaptchaRequest
         {
             Difficulty = CaptchaDifficulty.Challenging,
             Text = "challenging"
         };
 
-        var hardRequest = new CaptchaRequest
+        var hardRequest = new PostCreateCaptchaRequest
         {
             Difficulty = CaptchaDifficulty.Hard,
             Text = "hard"
@@ -126,7 +126,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultFrequencyForUnrecognizedDifficulty()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Difficulty = (CaptchaDifficulty)999,
             Text = "unknown difficulty"
@@ -143,7 +143,7 @@ public class RequestToDomainMapperTests
     public void ToDomainMapsMultipleRequestsCorrectly()
     {
         // Arrange
-        var requests = new List<CaptchaRequest>
+        var requests = new List<PostCreateCaptchaRequest>
         {
             new()
             {
@@ -183,7 +183,7 @@ public class RequestToDomainMapperTests
     public void ToDomainThrowsWhenRequestIsNull()
     {
         // Arrange
-        CaptchaRequest request = null;
+        PostCreateCaptchaRequest request = null;
 
         // Act & Assert
         Assert.Throws<NullReferenceException>(() => _requestToDomainMapper.ToDomain(request));
@@ -193,7 +193,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultPrimaryColorWhenNotProvided()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "text"
         };
@@ -213,7 +213,7 @@ public class RequestToDomainMapperTests
     public void ToDomainHandlesNullText()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = null,
             Width = 100,
@@ -236,7 +236,7 @@ public class RequestToDomainMapperTests
     public void ToDomainHandlesExcessivelyLargeWidthAndHeight()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "Large dimensions",
             Width = int.MaxValue,
@@ -259,7 +259,7 @@ public class RequestToDomainMapperTests
     {
         // Arrange
         var originalText = "  Leading,  internal   and trailing   whitespace  ";
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = originalText
         };
@@ -277,7 +277,7 @@ public class RequestToDomainMapperTests
     {
         // Arrange
         var unicodeString = "Captcha 🚀 Test – 你好";
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = unicodeString
         };
@@ -293,7 +293,7 @@ public class RequestToDomainMapperTests
     public void ToDomainAllowsEmptyText()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = string.Empty
         };
@@ -310,7 +310,7 @@ public class RequestToDomainMapperTests
     {
         // Arrange
         var longText = new string('x', 10_000);
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = longText
         };
@@ -327,7 +327,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultHeightWhenOnlyWidthProvided()
     {
         // Arrange
-        var request = new CaptchaRequest { Text = "w-only", Width = 321 };
+        var request = new PostCreateCaptchaRequest { Text = "w-only", Width = 321 };
 
         // Act
         var result = _requestToDomainMapper.ToDomain(request);
@@ -344,7 +344,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultWidthWhenOnlyHeightProvided()
     {
         // Arrange
-        var request = new CaptchaRequest { Text = "h-only", Height = 654 };
+        var request = new PostCreateCaptchaRequest { Text = "h-only", Height = 654 };
 
         // Act
         var result = _requestToDomainMapper.ToDomain(request);
@@ -361,7 +361,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesProvidedThemeColorsWhenValidHex()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "colors",
             Theme = new()
@@ -386,7 +386,7 @@ public class RequestToDomainMapperTests
     public void ToDomainParsesHexCaseInsensitively()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "test",
             Theme = new()
@@ -418,7 +418,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultColorsWhenThemeProvidedButEmptyOrWhitespace()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "empty theme",
             Theme = new()
@@ -443,7 +443,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultSecondaryColorWhenOnlyPrimaryProvided()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "only primary",
             Theme = new()
@@ -468,7 +468,7 @@ public class RequestToDomainMapperTests
     public void ToDomainUsesDefaultPrimaryColorWhenOnlySecondaryProvided()
     {
         // Arrange
-        var request = new CaptchaRequest
+        var request = new PostCreateCaptchaRequest
         {
             Text = "only secondary",
             Theme = new()
@@ -489,4 +489,479 @@ public class RequestToDomainMapperTests
         }
     }
 
+    [Test]
+    public void GetRequestDomainMapsTextCorrectly()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest { Text = "test text" };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Text, Is.EqualTo("test text"));
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultWidthAndHeightWhenNotProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest { Text = "some text" };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(Constants.DefaultCaptchaWidth));
+            Assert.That(result.Height, Is.EqualTo(Constants.DefaultCaptchaHeight));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesProvidedWidthAndHeight()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Width = 500,
+            Height = 300,
+            Text = "another text"
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(500));
+            Assert.That(result.Height, Is.EqualTo(300));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultFrequencyWhenDifficultyNotProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest { Text = "default freq" };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Frequency, Is.EqualTo(Constants.DefaultFrequency));
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesCorrectFrequencyForDifficulty()
+    {
+        // Arrange
+        var easyRequest = new GetCreateCaptchaRequest
+        {
+            Difficulty = CaptchaDifficulty.Easy,
+            Text = "easy"
+        };
+
+        var mediumRequest = new GetCreateCaptchaRequest
+        {
+            Difficulty = CaptchaDifficulty.Medium,
+            Text = "medium"
+        };
+
+        var challengingRequest = new GetCreateCaptchaRequest
+        {
+            Difficulty = CaptchaDifficulty.Challenging,
+            Text = "challenging"
+        };
+
+        var hardRequest = new GetCreateCaptchaRequest
+        {
+            Difficulty = CaptchaDifficulty.Hard,
+            Text = "hard"
+        };
+
+        // Act
+        var easyResult = _requestToDomainMapper.ToDomain(easyRequest);
+        var mediumResult = _requestToDomainMapper.ToDomain(mediumRequest);
+        var challengingResult = _requestToDomainMapper.ToDomain(challengingRequest);
+        var hardResult = _requestToDomainMapper.ToDomain(hardRequest);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(hardResult.Frequency, Is.EqualTo(20F), "Hard frequency");
+            Assert.That(easyResult.Frequency, Is.EqualTo(300F), "Easy frequency");
+            Assert.That(challengingResult.Frequency, Is.EqualTo(30F), "Challenging frequency");
+            Assert.That(mediumResult.Frequency, Is.EqualTo(Constants.DefaultFrequency), "Medium frequency");
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultFrequencyForUnrecognizedDifficulty()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Difficulty = (CaptchaDifficulty)999,
+            Text = "unknown difficulty"
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Frequency, Is.EqualTo(Constants.DefaultFrequency));
+    }
+
+    [Test]
+    public void GetRequestToDomainMapsMultipleRequestsCorrectly()
+    {
+        // Arrange
+        var requests = new List<GetCreateCaptchaRequest>
+        {
+            new()
+            {
+                Text = "test1",
+                Width = 500,
+                Height = 200,
+                Difficulty = CaptchaDifficulty.Easy
+            },
+            new()
+            {
+                Text = "test2",
+                Width = 600,
+                Height = 300,
+                Difficulty = CaptchaDifficulty.Hard
+            },
+        };
+
+        // Act
+        var results = requests.Select(_requestToDomainMapper.ToDomain).ToList();
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(results[0].Text, Is.EqualTo(requests[0].Text));
+            Assert.That(results[0].Width, Is.EqualTo(requests[0].Width));
+            Assert.That(results[0].Height, Is.EqualTo(requests[0].Height));
+            Assert.That(results[0].Frequency, Is.EqualTo(600F));
+
+            Assert.That(results[1].Text, Is.EqualTo(requests[1].Text));
+            Assert.That(results[1].Width, Is.EqualTo(requests[1].Width));
+            Assert.That(results[1].Height, Is.EqualTo(requests[1].Height));
+            Assert.That(results[1].Frequency, Is.EqualTo(80F));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainThrowsWhenRequestIsNull()
+    {
+        // Arrange
+        GetCreateCaptchaRequest request = null;
+
+        // Act & Assert
+        Assert.Throws<NullReferenceException>(() => _requestToDomainMapper.ToDomain(request));
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultPrimaryColorWhenNotProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "text"
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(Constants.DefaultPrimaryColor));
+            Assert.That(result.SecondaryColor, Is.EqualTo(Constants.DefaultSecondaryColor));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainHandlesNullText()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = null,
+            Width = 100,
+            Height = 50
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        using (Assert.EnterMultipleScope())
+        {
+            // Assert
+            Assert.That(result.Text, Is.Null);
+            Assert.That(result.Width, Is.EqualTo(100));
+            Assert.That(result.Height, Is.EqualTo(50));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainHandlesExcessivelyLargeWidthAndHeight()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "Large dimensions",
+            Width = int.MaxValue,
+            Height = int.MaxValue
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(int.MaxValue));
+            Assert.That(result.Height, Is.EqualTo(int.MaxValue));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainPreservesWhitespaceInText()
+    {
+        // Arrange
+        var originalText = "  Leading,  internal   and trailing   whitespace  ";
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = originalText
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Text, Is.EqualTo(originalText));
+    }
+
+
+    [Test]
+    public void GetRequestToDomainPreservesUnicodeText()
+    {
+        // Arrange
+        var unicodeString = "Captcha 🚀 Test – 你好";
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = unicodeString
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Text, Is.EqualTo(unicodeString));
+    }
+
+    [Test]
+    public void GetRequestToDomainAllowsEmptyText()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = string.Empty
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Text, Is.EqualTo(string.Empty));
+    }
+
+    [Test]
+    public void GetRequestToDomainCanHandleExtremelyLongText()
+    {
+        // Arrange
+        var longText = new string('x', 10_000);
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = longText
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        Assert.That(result.Text, Has.Length.EqualTo(10_000));
+        Assert.That(result.Text, Is.EqualTo(longText));
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultHeightWhenOnlyWidthProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest { Text = "w-only", Width = 321 };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(321));
+            Assert.That(result.Height, Is.EqualTo(Constants.DefaultCaptchaHeight));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultWidthWhenOnlyHeightProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest { Text = "h-only", Height = 654 };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.Width, Is.EqualTo(Constants.DefaultCaptchaWidth));
+            Assert.That(result.Height, Is.EqualTo(654));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesProvidedThemeColorsWhenValidHex()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "colors",
+            Theme = new()
+            {
+                PrimaryColor = "#112233",
+                SecondaryColor = "#AABBCC"
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#112233")));
+            Assert.That(result.SecondaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#AABBCC")));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainParsesHexCaseInsensitively()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "test",
+            Theme = new()
+            {
+                PrimaryColor = "#a1b2c3",
+                SecondaryColor = "#80FF0000"
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        var expectedPrimary = SkiaSharp.SKColor.Parse("#A1B2C3");
+        var expectedSecondary = SkiaSharp.SKColor.Parse("#80FF0000");
+
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(expectedPrimary));
+            Assert.That(result.SecondaryColor, Is.EqualTo(expectedSecondary));
+            Assert.That(result.SecondaryColor.Alpha, Is.EqualTo(expectedSecondary.Alpha));
+            Assert.That(result.SecondaryColor.Red, Is.EqualTo(expectedSecondary.Red));
+            Assert.That(result.SecondaryColor.Green, Is.EqualTo(expectedSecondary.Green));
+            Assert.That(result.SecondaryColor.Blue, Is.EqualTo(expectedSecondary.Blue));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultColorsWhenThemeProvidedButEmptyOrWhitespace()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "empty theme",
+            Theme = new()
+            {
+                PrimaryColor = "   ",
+                SecondaryColor = ""
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(Constants.DefaultPrimaryColor));
+            Assert.That(result.SecondaryColor, Is.EqualTo(Constants.DefaultSecondaryColor));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultSecondaryColorWhenOnlyPrimaryProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "only primary",
+            Theme = new()
+            {
+                PrimaryColor = "#010203",
+                SecondaryColor = null
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#010203")));
+            Assert.That(result.SecondaryColor, Is.EqualTo(Constants.DefaultSecondaryColor));
+        }
+    }
+
+    [Test]
+    public void GetRequestToDomainUsesDefaultPrimaryColorWhenOnlySecondaryProvided()
+    {
+        // Arrange
+        var request = new GetCreateCaptchaRequest
+        {
+            Text = "only secondary",
+            Theme = new()
+            {
+                PrimaryColor = null,
+                SecondaryColor = "#0A0B0C"
+            }
+        };
+
+        // Act
+        var result = _requestToDomainMapper.ToDomain(request);
+
+        // Assert
+        using (Assert.EnterMultipleScope())
+        {
+            Assert.That(result.PrimaryColor, Is.EqualTo(Constants.DefaultPrimaryColor));
+            Assert.That(result.SecondaryColor, Is.EqualTo(SkiaSharp.SKColor.Parse("#0A0B0C")));
+        }
+    }
 }
