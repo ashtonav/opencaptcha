@@ -40,7 +40,7 @@ public class CaptchaController(ICaptchaImageService captchaImageService, Request
         return await SerializeToJpegFile(created);
     }
 
-    private async Task<FileContentResult> SerializeToJpegFile(SKBitmap image)
+    private static async Task<FileContentResult> SerializeToJpegFile(SKBitmap image)
     {
         await using var memoryStream = new MemoryStream();
         SKImage.FromBitmap(image)
