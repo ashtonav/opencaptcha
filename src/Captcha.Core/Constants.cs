@@ -4,8 +4,6 @@ using SkiaSharp;
 
 public static class Constants
 {
-    public const int MinCaptchaSize = 10;
-    public const int MaxCaptchaSize = 1024;
     public const int DefaultCaptchaWidth = 400;
     public const int DefaultCaptchaHeight = 100;
     public const float DefaultFrequency = 100F;
@@ -16,11 +14,15 @@ public static class Constants
     public const float WarpCaptchaTextFrequency = 4F;
     public const int CaptchaNoise = 50;
 
-    // According to https://learn.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface, this should be thread-safe
+    /// <summary>
+    /// This object is shared across threads, however according to https://learn.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface it is fine to share it across threads.
+    /// </summary>
     public static SKTypeface MainFontTypeface { get; } =
         SKTypeface.FromStream(typeof(Constants).Assembly.GetManifestResourceStream("Captcha.Core.Resources.Fonts.Caveat-SemiBold.ttf"));
 
-    // According to https://learn.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface, this should be thread-safe
+    /// <summary>
+    /// This object is shared across threads, however according to https://learn.microsoft.com/en-us/dotnet/api/skiasharp.sktypeface it is fine to share it across threads.
+    /// </summary>
     public static SKTypeface FallbackFontTypeface { get; } =
         SKTypeface.FromStream(typeof(Constants).Assembly.GetManifestResourceStream("Captcha.Core.Resources.Fonts.Unifont.ttf"));
 }

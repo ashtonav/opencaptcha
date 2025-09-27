@@ -3,14 +3,14 @@ namespace Captcha.WebApi.Controllers.Examples;
 using Captcha.Core.Models;
 using Swashbuckle.AspNetCore.Filters;
 
-public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
+public record CreateCaptchaExamples : IMultipleExamplesProvider<PostCreateCaptchaRequest>
 {
-    public IEnumerable<SwaggerExample<CaptchaRequest>> GetExamples()
+    public IEnumerable<SwaggerExample<PostCreateCaptchaRequest>> GetExamples()
     {
         yield return SwaggerExample.Create(
             "Example 1",
             "Example 1 - Create captcha with text",
-            new CaptchaRequest
+            new PostCreateCaptchaRequest
             {
                 Text = "hello world"
             });
@@ -18,7 +18,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
         yield return SwaggerExample.Create(
             "Example 2",
             "Example 2 - Create challenging captcha with text",
-            new CaptchaRequest
+            new PostCreateCaptchaRequest
             {
                 Text = "hello world",
                 Difficulty = CaptchaDifficulty.Challenging
@@ -27,7 +27,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
         yield return SwaggerExample.Create(
             "Example 3",
             "Example 3 - Create hard captcha with text",
-            new CaptchaRequest
+            new PostCreateCaptchaRequest
             {
                 Text = "hello world",
                 Difficulty = CaptchaDifficulty.Hard
@@ -36,7 +36,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
         yield return SwaggerExample.Create(
             "Example 4",
             "Example 4 - Create captcha with text and height and width",
-            new CaptchaRequest
+            new PostCreateCaptchaRequest
             {
                 Text = "world",
                 Height = 300,
@@ -46,7 +46,7 @@ public record CreateCaptchaExamples : IMultipleExamplesProvider<CaptchaRequest>
         yield return SwaggerExample.Create(
             "Example 5",
             "Example 5 - Create captcha with a color theme",
-            new CaptchaRequest
+            new PostCreateCaptchaRequest
             {
                 Text = "hello world",
                 Theme = new ThemeConfiguration

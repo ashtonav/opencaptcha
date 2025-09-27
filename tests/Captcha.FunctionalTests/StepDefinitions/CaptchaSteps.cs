@@ -11,7 +11,9 @@ using Support;
 [Binding]
 public class CaptchaSteps(ScenarioContext context) : TestBase(context)
 {
-    private CaptchaRequest? _request;
+    private GetCreateCaptchaRequest? _getRequest;
+    private PostCreateCaptchaRequest? _postRequest;
+
     private RestResponse? _response;
 
     [Given(@"I have a captcha request with following parameters:")]
@@ -19,7 +21,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     {
         var row = table.Rows[0];
 
-        _request = new CaptchaRequest
+        _postRequest = new PostCreateCaptchaRequest
         {
             Text = row[TestConstants.Text],
             Width = string.IsNullOrEmpty(row[TestConstants.Width])
@@ -50,7 +52,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
         {
             RequestFormat = DataFormat.Json,
             Method = Method.Post
-        }.AddJsonBody(_request);
+        }.AddJsonBody(_postRequest);
 
         _response = await Client.ExecuteAsync(request);
     }
@@ -127,5 +129,43 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
 
         Assert.That(firstColorActualAmount, Is.AtLeast(firstColorExpectedAmount));
         Assert.That(secondColorActualAmount, Is.AtLeast(secondColorExpectedAmount));
+    }
+
+    [Given("I have a captcha request using get with following parameters:")]
+    public void GivenIHaveACaptchaRequestUsingGetWithFollowingParameters(Table table)
+    {
+        var row = table.Rows[0];
+
+        _getRequest = new GetCreateCaptchaRequest
+        {
+            Text = row[TestConstants.Text],
+            Width = string.IsNullOrEmpty(row[TestConstants.Width])
+                ? null
+                : int.Parse(row[TestConstants.Width], CultureInfo.InvariantCulture),
+            Height = string.IsNullOrEmpty(row[TestConstants.Height])
+                ? null
+                : int.Parse(row[TestConstants.Height], CultureInfo.InvariantCulture),
+            Difficulty = string.IsNullOrEmpty(row[TestConstants.Difficulty])
+                ? null
+                : Enum.Parse<CaptchaDifficulty>(row[TestConstants.Difficulty], true),
+            Theme = new ThemeConfiguration()
+            {
+                PrimaryColor = !row.ContainsKey(TestConstants.PrimaryColor)
+                    ? null
+                    : row[TestConstants.PrimaryColor],
+                SecondaryColor = !row.ContainsKey(TestConstants.SecondaryColor)
+                    ? null
+                    : row[TestConstants.SecondaryColor]
+            }
+        };
+    }
+
+    [When("I send the get request to the Create endpoint of the CaptchaController")]
+    public async Task WhenISendTheGetRequestToTheCreateEndpointOfTheCaptchaController()
+    {
+        var request = new RestRequest(TestConstants.CreateCaptchaEndpoint)
+            .AddObject(_getRequest);
+
+        _response = await Client.ExecuteAsync(request);
     }
 }

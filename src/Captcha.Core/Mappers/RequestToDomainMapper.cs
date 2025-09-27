@@ -6,7 +6,23 @@ using static Models.CaptchaDifficulty;
 
 public class RequestToDomainMapper
 {
-    public CaptchaConfigurationData ToDomain(CaptchaRequest request)
+    public CaptchaConfigurationData ToDomain(GetCreateCaptchaRequest request)
+    {
+        var width = request.Width ?? Constants.DefaultCaptchaWidth;
+        var height = request.Height ?? Constants.DefaultCaptchaHeight;
+
+        return new CaptchaConfigurationData
+        {
+            Text = request.Text,
+            Width = width,
+            Height = height,
+            Frequency = GetFrequency(request.Difficulty, width, height),
+            PrimaryColor = GetColor(request.Theme?.PrimaryColor) ?? Constants.DefaultPrimaryColor,
+            SecondaryColor = GetColor(request.Theme?.SecondaryColor) ?? Constants.DefaultSecondaryColor,
+        };
+    }
+
+    public CaptchaConfigurationData ToDomain(PostCreateCaptchaRequest request)
     {
         var width = request.Width ?? Constants.DefaultCaptchaWidth;
         var height = request.Height ?? Constants.DefaultCaptchaHeight;

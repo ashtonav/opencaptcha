@@ -1,6 +1,6 @@
 namespace Captcha.Core.Models;
 
-public record CaptchaRequest
+public record GetCreateCaptchaRequest
 {
     public required string Text { get; init; }
     public int? Width { get; init; }

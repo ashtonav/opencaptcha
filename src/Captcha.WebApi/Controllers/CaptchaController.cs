@@ -13,18 +13,37 @@ using Swashbuckle.AspNetCore.Filters;
 [Route("[controller]")]
 public class CaptchaController(ICaptchaImageService captchaImageService, RequestToDomainMapper requestToDomainMapper) : ControllerBase
 {
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<FileContentResult> GetCreateAsync([FromQuery] GetCreateCaptchaRequest request)
+    {
+        var domain = requestToDomainMapper.ToDomain(request);
+
+        using var created = captchaImageService.CreateCaptchaImage(domain);
+
+        return await SerializeToJpegFile(created);
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [SwaggerRequestExample(typeof(CaptchaRequest), typeof(CreateCaptchaExamples))]
-    public async Task<FileContentResult> CreateAsync(CaptchaRequest request)
+    [SwaggerRequestExample(typeof(PostCreateCaptchaRequest), typeof(CreateCaptchaExamples))]
+    public async Task<FileContentResult> PostCreateAsync(PostCreateCaptchaRequest request)
     {
         var domain = requestToDomainMapper.ToDomain(request);
+
         using var created = captchaImageService.CreateCaptchaImage(domain);
 
+        return await SerializeToJpegFile(created);
+    }
+
+    private static async Task<FileContentResult> SerializeToJpegFile(SKBitmap image)
+    {
         await using var memoryStream = new MemoryStream();
-        SKImage.FromBitmap(created)
+        SKImage.FromBitmap(image)
             .Encode(SKEncodedImageFormat.Jpeg, 100)
             .SaveTo(memoryStream);
 

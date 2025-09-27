@@ -7,11 +7,6 @@ using SkiaSharp;
 [TestFixture]
 public class ConstantsTests
 {
-    [Test]
-    public void MaxCaptchaSizeShouldBe1024() => Assert.That(Constants.MaxCaptchaSize, Is.EqualTo(1024));
-
-    [Test]
-    public void MinCaptchaSizeShouldBe10() => Assert.That(Constants.MinCaptchaSize, Is.EqualTo(10));
 
     [Test]
     public void DefaultCaptchaWidthShouldBe400() => Assert.That(Constants.DefaultCaptchaWidth, Is.EqualTo(400));
