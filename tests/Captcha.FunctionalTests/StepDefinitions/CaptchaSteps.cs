@@ -164,7 +164,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     public async Task WhenISendTheGetRequestToTheCreateEndpointOfTheCaptchaController()
     {
         var request = new RestRequest(TestConstants.CreateCaptchaEndpoint)
-            .AddObject<GetCreateCaptchaRequest>(_getRequest);
+            .AddObject(_getRequest);
 
         _response = await Client.ExecuteAsync(request);
     }
