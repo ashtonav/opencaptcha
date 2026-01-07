@@ -3,7 +3,7 @@ namespace Captcha.WebApi.Dependency;
 using Captcha.Core.Mappers;
 using Captcha.Core.Services;
 using Controllers.Examples;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Swashbuckle.AspNetCore.Filters;
