@@ -80,17 +80,17 @@ curl -X 'POST' \
 ### Option 2: Using Visual Studio (recommended for development purposes)
 
 #### Requirements
-- Visual Studio 2022
+- Visual Studio 2026
     - With ASP.NET and web development installed from the Visual Studio Installer
-- .NET 9 SDK
+- .NET 10 SDK
 
 #### How to Run
-1. Open the solution in Visual Studio 2022.
+1. Open the solution in Visual Studio 2026.
 2. Build and launch the Captcha.WebApi project.
 3. The API can be accessed at [https://localhost:5280](https://localhost:5280).
 
 #### How to Test
-1. Open the solution in Visual Studio 2022.
+1. Open the solution in Visual Studio 2026.
 2. Run the tests in Test Explorer.
 
 ## Acknowledgments
