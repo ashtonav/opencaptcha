@@ -42,7 +42,7 @@ curl -X 'POST' \
   -d '{ "text": "普通" }'
 ```
 
-### Example 3: Generated CAPTCHA images can be in a different colors
+### Example 3: Generated CAPTCHA images can be in a different colors.
 
 ![banner](docs/captcha_example_colors.gif)
 
@@ -67,7 +67,7 @@ curl -X 'POST' \
 ### Option 1: Using Docker (recommended for self-hosting)
 
 #### Requirements
-- Docker
+- Docker.
 
 #### How to Run
 1. From the root folder of the project, run the following commands:
@@ -80,9 +80,9 @@ curl -X 'POST' \
 ### Option 2: Using Visual Studio (recommended for development purposes)
 
 #### Requirements
-- Visual Studio 2026
-    - With ASP.NET and web development installed from the Visual Studio Installer
-- .NET 10 SDK
+- Visual Studio 2026.
+    - With ASP.NET and web development installed from the Visual Studio Installer.
+- .NET 10 SDK.
 
 #### How to Run
 1. Open the solution in Visual Studio 2026.
@@ -103,4 +103,4 @@ Pull requests are accepted.
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[MIT](https://choosealicense.com/licenses/mit/).
