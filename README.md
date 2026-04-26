@@ -94,7 +94,7 @@ curl -X 'POST' \
 
 ## Acknowledgments
 
-A significant portion of this project, especially the CAPTCHA generation code, is inspired by work originally published on February 9, 2004, by [BrainJar](https://www.codeproject.com/articles/CAPTCHA-Image-2).
+A significant portion of this project, especially the CAPTCHA generation code, is inspired by work originally published on February 9, 2004, by [BrainJar](https://web.archive.org/web/20241116012010/https://www.codeproject.com/Articles/5947/CAPTCHA-Image).
 
 ## Contributing
 
