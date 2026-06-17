@@ -1,10 +1,11 @@
 namespace Captcha.FunctionalTests.StepDefinitions;
 
 using System.Globalization;
+using System.Text;
+using System.Text.Json;
 using Core.Models;
 using NUnit.Framework;
 using Reqnroll;
-using RestSharp;
 using SkiaSharp;
 using Support;
 
@@ -14,7 +15,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     private GetCreateCaptchaRequest? _getRequest;
     private PostCreateCaptchaRequest? _postRequest;
 
-    private RestResponse? _response;
+    private HttpResponseMessage? _response;
 
     [Given(@"I have a captcha request with following parameters:")]
     public void GivenIHaveACaptchaRequestWithFollowingParameters(Table table)
@@ -48,20 +49,17 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     [When(@"I send the request to the Create endpoint of the CaptchaController")]
     public async Task WhenISendTheRequestToTheCreateEndpointOfTheCaptchaController()
     {
-        var request = new RestRequest(TestConstants.CreateCaptchaEndpoint)
-        {
-            RequestFormat = DataFormat.Json,
-            Method = Method.Post
-        }.AddJsonBody(_postRequest);
-
-        _response = await Client.ExecuteAsync(request);
+        var json = JsonSerializer.Serialize(_postRequest);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        _response = await Client.PostAsync(TestConstants.CreateCaptchaEndpoint, content);
     }
 
     [Then(@"I expect a captcha image to be returned with the following attributes:")]
-    public void ThenIExpectACaptchaImageToBeReturnedWithTheFollowingAttributes(Table table)
+    public async Task ThenIExpectACaptchaImageToBeReturnedWithTheFollowingAttributes(Table table)
     {
         var row = table.Rows[0];
-        using var ms = new MemoryStream(_response.RawBytes);
+        var rawBytes = await _response!.Content.ReadAsByteArrayAsync();
+        using var ms = new MemoryStream(rawBytes);
         var img = SKImage.FromEncodedData(ms);
 
         var expectedWidth = int.Parse(row[TestConstants.Width], CultureInfo.InvariantCulture);
@@ -72,9 +70,10 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     }
 
     [Then(@"I expect a captcha image to be returned without any black borders")]
-    public void ThenIExpectACaptchaImageToBeReturnedWithoutAnyBlackBorders()
+    public async Task ThenIExpectACaptchaImageToBeReturnedWithoutAnyBlackBorders()
     {
-        using var ms = new MemoryStream(_response!.RawBytes!);
+        var rawBytes = await _response!.Content.ReadAsByteArrayAsync();
+        using var ms = new MemoryStream(rawBytes);
         var img = SKImage.FromEncodedData(ms);
         var bmp = SKBitmap.FromImage(img);
 
@@ -94,7 +93,7 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     }
 
     [Then("I expect a captcha image to contain at least {string} pixels of color {string} and at least {string} pixels of color {string}")]
-    public void ThenIExpectACaptchaImageToContainPixelsOfColorAndPixelsOfColor
+    public async Task ThenIExpectACaptchaImageToContainPixelsOfColorAndPixelsOfColor
         (string firstColorAmountOfPixels, string firstColorHex, string secondColorAmountOfPixels, string secondColorHex)
     {
         var firstColor = SKColor.Parse(firstColorHex);
@@ -103,7 +102,8 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
         var secondColor = SKColor.Parse(secondColorHex);
         var secondColorExpectedAmount = int.Parse(secondColorAmountOfPixels, CultureInfo.InvariantCulture);
 
-        using var ms = new MemoryStream(_response!.RawBytes!);
+        var rawBytes = await _response!.Content.ReadAsByteArrayAsync();
+        using var ms = new MemoryStream(rawBytes);
         var img = SKImage.FromEncodedData(ms);
         var bmp = SKBitmap.FromImage(img);
 
@@ -163,9 +163,27 @@ public class CaptchaSteps(ScenarioContext context) : TestBase(context)
     [When("I send the get request to the Create endpoint of the CaptchaController")]
     public async Task WhenISendTheGetRequestToTheCreateEndpointOfTheCaptchaController()
     {
-        var request = new RestRequest(TestConstants.CreateCaptchaEndpoint)
-            .AddObject(_getRequest);
+        var queryParams = new Dictionary<string, string?>
+        {
+            ["Text"] = _getRequest!.Text
+        };
+        if (_getRequest.Width.HasValue)
+        {
+            queryParams["Width"] = _getRequest.Width.Value.ToString(CultureInfo.InvariantCulture);
+        }
 
-        _response = await Client.ExecuteAsync(request);
+        if (_getRequest.Height.HasValue)
+        {
+            queryParams["Height"] = _getRequest.Height.Value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        if (_getRequest.Difficulty.HasValue)
+        {
+            queryParams["Difficulty"] = _getRequest.Difficulty.ToString();
+        }
+
+        var queryString = string.Join("&", queryParams.Select(kvp => $"{kvp.Key}={Uri.EscapeDataString(kvp.Value!)}"));
+        var url = $"{TestConstants.CreateCaptchaEndpoint}?{queryString}";
+        _response = await Client.GetAsync(url);
     }
 }
